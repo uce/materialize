@@ -8,7 +8,7 @@
 # by the Apache License, Version 2.0.
 
 statement ok
-CREATE TABLE t (f0 int, f1 int)
+CREATE TABLE t (f0 int, f1 int, f2 int)
 
 query T multiline
 EXPLAIN SELECT DISTINCT * FROM t GROUP BY f1, f2, f0
@@ -52,5 +52,65 @@ EXPLAIN SELECT DISTINCT FROM (SELECT DISTINCT f0 FROM (SELECT DISTINCT f0, f1 FR
 %0 =
 | Get materialize.public.t (u1)
 | Distinct group=()
+
+EOF
+
+query T multiline
+EXPLAIN TYPED SELECT SUM(count) FROM (SELECT f0, f1, COUNT(f2) FROM t GROUP BY f0, f1) GROUP BY f0;
+----
+%0 =
+| Get materialize.public.t (u1)
+| | types = (integer?, integer?, integer?)
+| | keys = ()
+| Reduce group=(#0)
+| | agg count(#2)
+| | types = (integer?, bigint)
+| | keys = ((#0))
+| Map i64todec(#1)
+| | types = (integer?, bigint, numeric(0,0))
+| | keys = ((#0))
+| Project (#2)
+| | types = (numeric(0,0))
+| | keys = ()
+
+EOF
+
+query T multiline
+EXPLAIN TYPED SELECT f0, SUM(count) FROM (SELECT f0, f1, COUNT(f2) FROM t GROUP BY f0, f1) GROUP BY f0;
+----
+%0 =
+| Get materialize.public.t (u1)
+| | types = (integer?, integer?, integer?)
+| | keys = ()
+| Reduce group=(#0)
+| | agg count(#2)
+| | types = (integer?, bigint)
+| | keys = ((#0))
+| Map i64todec(#1)
+| | types = (integer?, bigint, numeric(0,0))
+| | keys = ((#0))
+| Project (#0, #2)
+| | types = (integer?, numeric(0,0))
+| | keys = ((#0))
+
+EOF
+
+query T multiline
+EXPLAIN TYPED SELECT SUM(count) FROM (SELECT f0, COUNT(f2) FROM t GROUP BY f0, f1) GROUP BY f0;
+----
+%0 =
+| Get materialize.public.t (u1)
+| | types = (integer?, integer?, integer?)
+| | keys = ()
+| Reduce group=(#0)
+| | agg count(#2)
+| | types = (integer?, bigint)
+| | keys = ((#0))
+| Map i64todec(#1)
+| | types = (integer?, bigint, numeric(0,0))
+| | keys = ((#0))
+| Project (#2)
+| | types = (numeric(0,0))
+| | keys = ()
 
 EOF

@@ -402,7 +402,6 @@ explain select distinct 123 from (select distinct a from t);
 ----
 %0 =
 | Get materialize.public.t (u1)
-| Distinct group=(#0)
 | Distinct group=()
 | Map 123
 
