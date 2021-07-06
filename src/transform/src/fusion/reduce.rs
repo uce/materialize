@@ -48,11 +48,18 @@ impl Reduce {
                 expected_group_size: _,
             } = &mut **input
             {
-                // Do nothing if outer key is not a subset of inner key
-                if !group_key
-                    .iter()
-                    .all(|e| matches!(e, MirScalarExpr::Column(_)) && inner_group_key.contains(e))
-                {
+                let mut outer_cols = vec![];
+                for expr in group_key.iter() {
+                    expr.visit(&mut |e| {
+                        if let MirScalarExpr::Column(i) = e {
+                            outer_cols.push(*i);
+                        }
+                    });
+                }
+
+                // We can always fuse two Reduce operators as long as the outer
+                // one doesn't group by an aggregation performed by the inner one.
+                if outer_cols.iter().any(|c| *c >= inner_group_key.len()) {
                     return;
                 }
 
@@ -60,17 +67,15 @@ impl Reduce {
                     // Replace inner reduce with map + project (no grouping)
                     let mut outputs = vec![];
                     let mut scalars = vec![];
+
+                    let arity = inner_input.arity();
                     for e in inner_group_key {
                         if let MirScalarExpr::Column(i) = e {
                             outputs.push(*i);
                         } else {
+                            outputs.push(arity + scalars.len());
                             scalars.push(e.clone());
                         }
-                    }
-
-                    let arity = inner_input.arity();
-                    for i in 0..scalars.len() {
-                        outputs.push(arity + i);
                     }
 
                     **input = inner_input.take_dangerous().map(scalars).project(outputs);

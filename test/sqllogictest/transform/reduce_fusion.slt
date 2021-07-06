@@ -56,6 +56,24 @@ EXPLAIN SELECT DISTINCT FROM (SELECT DISTINCT f0 FROM (SELECT DISTINCT f0, f1 FR
 EOF
 
 query T multiline
+EXPLAIN SELECT f0 FROM (SELECT f0 FROM t GROUP BY f1 / 10, f0) GROUP BY f0;
+----
+%0 =
+| Get materialize.public.t (u1)
+| Distinct group=(#0)
+
+EOF
+
+query T multiline
+EXPLAIN SELECT f0 / 20 FROM (SELECT f0 / 10 AS f0 FROM t GROUP BY f0 / 10) GROUP BY f0 / 20;
+----
+%0 =
+| Get materialize.public.t (u1)
+| Distinct group=(((#0 / 10) / 20))
+
+EOF
+
+query T multiline
 EXPLAIN TYPED SELECT SUM(count) FROM (SELECT f0, f1, COUNT(f2) FROM t GROUP BY f0, f1) GROUP BY f0;
 ----
 %0 =
