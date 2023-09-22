@@ -1,5 +1,5 @@
 ---
-name: "Internal: Epic"
+name: "Internal: Epic2"
 title: "[Epic] <name>"
 about: >
   A tracker for a project that's ~1+ weeks of work.
