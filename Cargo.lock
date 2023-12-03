@@ -6312,7 +6312,7 @@ dependencies = [
 [[package]]
 name = "postgres-protocol"
 version = "0.6.5"
-source = "git+https://github.com/MaterializeInc/rust-postgres#7bdd17b5acf4d7dbc53b08a9038793ab7e49da6c"
+source = "git+https://github.com/MaterializeInc/rust-postgres#b759caa33610403aa74b1cfdd37f45eb3100c9af"
 dependencies = [
  "base64 0.21.0",
  "byteorder",
@@ -6329,7 +6329,7 @@ dependencies = [
 [[package]]
 name = "postgres-types"
 version = "0.2.5"
-source = "git+https://github.com/MaterializeInc/rust-postgres#7bdd17b5acf4d7dbc53b08a9038793ab7e49da6c"
+source = "git+https://github.com/MaterializeInc/rust-postgres#b759caa33610403aa74b1cfdd37f45eb3100c9af"
 dependencies = [
  "bytes",
  "chrono",
@@ -6487,9 +6487,9 @@ checksum = "dbf0c48bc1d91375ae5c3cd81e3722dff1abcf81a30960240640d223f59fe0e5"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.66"
+version = "1.0.70"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e2ead9"
+checksum = "39278fbbf5fb4f646ce651690877f89d1c5811a3d4acb27700c1cb3cdb78fd3b"
 dependencies = [
  "unicode-ident",
 ]
@@ -8204,7 +8204,7 @@ dependencies = [
 [[package]]
 name = "tokio-postgres"
 version = "0.7.8"
-source = "git+https://github.com/MaterializeInc/rust-postgres#7bdd17b5acf4d7dbc53b08a9038793ab7e49da6c"
+source = "git+https://github.com/MaterializeInc/rust-postgres#b759caa33610403aa74b1cfdd37f45eb3100c9af"
 dependencies = [
  "async-trait",
  "byteorder",
