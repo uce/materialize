@@ -29,7 +29,7 @@ futures = "0.3.25"
 globset = { version = "0.4.9", features = ["serde1"] }
 http = "0.2.8"
 indexmap = { version = "2.0.0", default-features = false, features = ["std"] }
-itertools = { version = "0.10.5" }
+itertools = { version = "0.12.0" }
 maplit = "1.0.2"
 mz-avro = { path = "../avro", features = ["snappy"] }
 mz-aws-s3-util = { path = "../aws-s3-util" }
@@ -92,7 +92,7 @@ datadriven = { version = "0.6.0", features = ["async"] }
 humantime = "2.1.0"
 mz-http-util = { path = "../http-util" }
 mz-orchestrator-tracing = { path = "../orchestrator-tracing" }
-itertools = "0.10.5"
+itertools = "0.12.0"
 num_cpus = "1.14.0"
 tempfile = "3.2.0"
 tokio = { version = "1.24.2", features = ["test-util"] }
